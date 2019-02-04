@@ -1,0 +1,31 @@
+import struct
+import gzip
+import os
+
+
+def main():
+    for root, dirs, files in os.walk("."):
+        for file_ in files:
+            file_name, extension = os.path.splitext(file_)
+            if extension == ".gz":
+                print(file_)
+                buffer_ = []
+
+                with gzip.GzipFile(file_, mode='rb') as gz_file:
+                    vals = list(struct.unpack("<5if3I", gz_file.read(36)))
+                    print(vals)
+                    vals[-1] += 2
+                    vals[-2] += 2
+                    vals[-3] += 2
+                    print(vals)
+                    buffer_.append(struct.pack("<H", 1))
+                    buffer_.append(struct.pack("<5if3I", *vals))
+                    buffer_.append(gz_file.read())
+
+                with gzip.GzipFile(file_, mode='wb') as new_gz_file:
+                    for buff in buffer_:
+                        new_gz_file.write(buff)
+
+
+if __name__ == '__main__':
+    main()

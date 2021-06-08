@@ -9,7 +9,7 @@ name = "pypi"
 
 numpy = "*"
 olefile = "==0.44"
-pillow = "==4.1.1"
+pillow = "==8.2.0"
 "pyqt5" = "==5.8.2"
 sip = "==4.19.2"
 tqdm = "==4.14.0"
